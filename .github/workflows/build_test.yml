@@ -1,0 +1,24 @@
+name: Build and test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build_and_test:
+    name: Rust project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+      - name: Install package
+        run: pip install .
+      - name: Build
+        run: maturin develop
+      - name: Test
+        run: pytest .
